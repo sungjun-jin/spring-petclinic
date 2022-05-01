@@ -59,6 +59,9 @@ public class Owner extends Person {
 	@Digits(fraction = 0, integer = 10)
 	private String telephone;
 
+	@Column(name = "age")
+	private int age;
+
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinColumn(name = "owner_id")
 	@OrderBy("name")
@@ -87,6 +90,10 @@ public class Owner extends Person {
 	public void setTelephone(String telephone) {
 		this.telephone = telephone;
 	}
+
+	public int getAge() { return age; }
+
+	public void setAge(int age) { this.age = age; }
 
 	public List<Pet> getPets() {
 		return this.pets;
