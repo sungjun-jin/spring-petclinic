@@ -91,16 +91,16 @@ class OwnerController {
 			Model model) {
 
 		// allow parameterless GET request for /owners to return all records
-		if (owner.getLastName() == null) {
-			owner.setLastName(""); // empty string signifies broadest possible search
+		if (owner.getFirstName() == null) {
+			owner.setFirstName(""); // empty string signifies broadest possible search
 		}
 
-		// find owners by last name
-		String lastName = owner.getLastName();
-		Page<Owner> ownersResults = findPaginatedForOwnersLastName(page, lastName);
+		// find owners by first name
+		String firstName = owner.getFirstName();
+		Page<Owner> ownersResults = findPaginatedForOwnersFirstName(page, firstName);
 		if (ownersResults.isEmpty()) {
 			// no owners found
-			result.rejectValue("lastName", "notFound", "not found");
+			result.rejectValue("firstName", "notFound", "not found");
 			return "owners/findOwners";
 		}
 		else if (ownersResults.getTotalElements() == 1) {
@@ -110,12 +110,12 @@ class OwnerController {
 		}
 		else {
 			// multiple owners found
-			lastName = owner.getLastName();
-			return addPaginationModel(page, model, lastName, ownersResults);
+			firstName = owner.getFirstName();
+			return addPaginationModel(page, model, firstName, ownersResults);
 		}
 	}
 
-	private String addPaginationModel(int page, Model model, String lastName, Page<Owner> paginated) {
+	private String addPaginationModel(int page, Model model, String firstName, Page<Owner> paginated) {
 		model.addAttribute("listOwners", paginated);
 		List<Owner> listOwners = paginated.getContent();
 		model.addAttribute("currentPage", page);
@@ -125,11 +125,11 @@ class OwnerController {
 		return "owners/ownersList";
 	}
 
-	private Page<Owner> findPaginatedForOwnersLastName(int page, String lastname) {
+	private Page<Owner> findPaginatedForOwnersFirstName(int page, String firstName) {
 
 		int pageSize = 5;
 		Pageable pageable = PageRequest.of(page - 1, pageSize);
-		return owners.findByLastName(lastname, pageable);
+		return owners.findByFirstName(firstName, pageable);
 
 	}
 
