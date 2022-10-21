@@ -57,6 +57,7 @@ class OwnerController {
 		dataBinder.setDisallowedFields("id");
 	}
 
+	@LogExecutionTime
 	@ModelAttribute("owner")
 	public Owner findOwner(@PathVariable(name = "ownerId", required = false) Integer ownerId) {
 		return ownerId == null ? new Owner() : this.owners.findById(ownerId);
